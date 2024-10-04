@@ -1,0 +1,76 @@
+---
+title: "World Development Indicators Analysis 2022"
+author: "Angela Xie"
+date: "2024-10-03"
+format:
+  html: default
+  pdf: default
+bibliography: references.bib
+---
+
+## Loading Dataset
+
+```{r}
+# Load the dataset using preferred programming language
+df <- read.csv("wdi.csv")
+
+# Display the first few rows of the dataset
+head(df)
+```
+
+## Explore the Dataset
+
+```{r}
+# Conduct exploratory data analysis on at least three indicators. Summarise findings in markdown sections. Show code and results.
+summary(df[, c("gdp_per_capita", "gdp_growth_rate", "adult_literacy_rate")])
+```
+
+## Graph #1
+
+```{r top_10_GDP}
+
+# Sort the dataset by GDP per capita and select the top 10 countries
+top10_gdp <- df[order(-df$gdp_per_capita), ][1:10, ]
+
+# Create a bar chart for the top 10 countries by GDP per capita
+barplot(
+  height = top10_gdp$gdp_per_capita,
+  names.arg = top10_gdp$country,
+  col = "pink",
+  las = 2, 
+  main = "Top 10 Countries by GDP per Capita",
+  xlab = "Country",
+  ylab = "GDP per Capita (USD)"
+)
+```
+
+## Graph #2
+
+```{r literacy_and_gdp}
+
+# Scatter plot of Literacy Rate vs GDP Growth Rate 
+plot(
+  df$adult_literacy_rate, df$gdp_growth_rate,
+  xlab = "Adult Literacy Rate (%)",
+  ylab = "GDP Growth Rate (%)",
+  main = "Adult Literacy Rate vs GDP Growth Rate",
+  col = "blue",
+)
+```
+
+[Figure @top_10_GDP] shows Top 10 countries with highest GDP 
+[Figure @literacy_and_gdp] shows the relationship between literacy rate and GDP growth rate
+
+
+## Summary Table
+
+```{r}
+cat(
+  "Indicator                | Mean      | Range\n",
+  "------------------------ | --------- | ----------------\n",
+  "GDP Per Capita            |", round(mean(df$gdp_per_capita, na.rm = TRUE), 2), "|", min(df$gdp_per_capita, na.rm = TRUE), "-", max(df$gdp_per_capita, na.rm = TRUE), "\n",
+  "GDP Growth Rate           |", round(mean(df$gdp_growth_rate, na.rm = TRUE), 2), "|", min(df$gdp_growth_rate, na.rm = TRUE), "-", max(df$gdp_growth_rate, na.rm = TRUE), "\n",
+  "Adult Literacy Rate       |", round(mean(df$adult_literacy_rate, na.rm = TRUE), 2), "|", min(df$adult_literacy_rate, na.rm = TRUE), "-", max(df$adult_literacy_rate, na.rm = TRUE), "\n"
+)
+
+```

@@ -1,0 +1,79 @@
+---
+title: "World Development Indicators 2022"
+author: "Angela Xie"
+date: "2024-10-04"
+format:
+  revealjs:
+    theme: sky
+    transition: zoom
+---
+
+# World Development Indicators 2022
+
+By Angela Xie
+
+---
+
+## GDP Per Capita for top 10 countries
+
+
+```{r}
+
+# Load the dataset using preferred programming language
+df <- read.csv("wdi.csv")
+
+# Sort the dataset by GDP per capita and select the top 10 countries
+top10_gdp <- df[order(-df$gdp_per_capita), ][1:10, ]
+
+# Create a bar chart for the top 10 countries by GDP per capita
+barplot(
+  height = top10_gdp$gdp_per_capita,
+  names.arg = top10_gdp$country,
+  col = "pink",
+  las = 2, 
+  main = "Top 10 Countries by GDP per Capita",
+  xlab = "Country",
+  ylab = "GDP per Capita (USD)"
+)
+```
+
+
+
+---
+
+## Literacy Rate vs GDP Growth Rate
+
+```{r}
+# Scatter plot of Literacy Rate vs GDP Growth Rate 
+plot(
+  df$adult_literacy_rate, df$gdp_growth_rate,
+  xlab = "Adult Literacy Rate (%)",
+  ylab = "GDP Growth Rate (%)",
+  main = "Adult Literacy Rate vs GDP Growth Rate",
+  col = "blue",
+)
+```
+
+---
+
+## Summary Table
+
+```{r}
+cat(
+  "Indicator                | Mean      | Range\n",
+  "------------------------ | --------- | ----------------\n",
+  "GDP Per Capita            |", round(mean(df$gdp_per_capita, na.rm = TRUE), 2), "|", min(df$gdp_per_capita, na.rm = TRUE), "-", max(df$gdp_per_capita, na.rm = TRUE), "\n",
+  "GDP Growth Rate           |", round(mean(df$gdp_growth_rate, na.rm = TRUE), 2), "|", min(df$gdp_growth_rate, na.rm = TRUE), "-", max(df$gdp_growth_rate, na.rm = TRUE), "\n",
+  "Adult Literacy Rate       |", round(mean(df$adult_literacy_rate, na.rm = TRUE), 2), "|", min(df$adult_literacy_rate, na.rm = TRUE), "-", max(df$adult_literacy_rate, na.rm = TRUE), "\n"
+)
+
+```
+
+
+---
+
+## Conclusion
+
+- The analysis revealed the top 10 countries by GDP per capita. These countries are the wealthiest in terms of average income per person.
+- However, the correlation between **GDP growth** and **adult literacy rate** appears to be weak, suggesting that higher literacy does not always translate into higher economic growth.
+- This insight highlights that while GDP per capita can indicate wealth, other factors like education may not directly influence GDP growth in a linear manner.
